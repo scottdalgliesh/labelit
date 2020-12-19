@@ -2,23 +2,19 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <!-- Bootstrap CSS -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
         <title>Bull Labels</title>
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="..\labelit\style.css">
+        <link rel="stylesheet" media='print' href="file:///C:/Users/sdalg/python/labelit/labelit/style.css">
     </head>
     <body>
-        <div class='container'>
-            <div class='row gx-4 gy-4'>
-                {% for bull, code, date in bulls%}
-                <div class='col-6'>
-                    <div class='p-3 border bg-light'>
-                        <h1 class="bull">{{ bull }}</h1>
-                        <p class="info">Code: {{ code}}<br/>Date: {{ date }}</p>
-                    </div>
-                </div>
-                {% endfor %}
+        <div class='page'>
+            {% for (bull, code, date) in bulls %}
+            <div class='label'>
+                <h1 class='bull'>{{ bull }}</h1>
+                <p class='code'>Code: {{ code }}</p>
+                <p class='date'>Date: {{ date }}</p>
             </div>
+            {% endfor %}
         </div>
     </body>
 </html>

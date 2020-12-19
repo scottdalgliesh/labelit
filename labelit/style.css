@@ -1,7 +1,34 @@
-.info {
-    margin-bottom: 0mm;
+.page {
+    border: 0.01in solid black;
+    display: -webkit-box; /* for pdf conversion*/
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.label {
+    width: 4in;
+    height: min-content;
+    margin: 0.1in;
+    padding: 0.15in;
+    background-color: lightgray;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border: 0.01in solid black;
+    border-radius: 0.1in;
+    page-break-inside: avoid;
+    display: inline-block;  /* for pdf conversion*/
 }
 
 .bull {
-    margin-bottom: 0mm;
+    margin: 0;
+}
+
+.code {
+    margin: 0.05in 0in 0in 0in;
+}
+
+.date {
+    margin: 0.05in 0in;
 }
