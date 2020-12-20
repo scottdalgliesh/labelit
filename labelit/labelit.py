@@ -1,24 +1,32 @@
 from datetime import date
+from pathlib import Path
 
 from jinja2 import Template
 import pdfkit
 
 from .sample_data import bulls
 
+#file directories
+root = Path(__file__).parent.parent
+html = root / 'labelit' / 'template.html'
+css = root / 'labelit' / 'style.css'
+out_html = root / 'output' / 'output.html'
+out_pdf = root / 'output' / 'output.pdf'
+
 #sort by date then name
 bulls = [(x[0], x[1], date.fromisoformat(x[2])) for x in bulls]
 bulls.sort(key= lambda x: (x[2], x[0]))
 
 #read html template
-with open(r'labelit\template.html') as file:
+with open(html) as file:
     template = Template(file.read())
-doc = template.render({'bulls':bulls})
+doc = template.render({'bulls':bulls, 'css':css})
 
 #output complete html document
-with open(r'output\output.html', 'w') as file:
+with open(out_html, 'w') as file:
     file.write(doc)
 
 # output complete pdf
 options = {'enable-local-file-access': None, 'print-media-type': None}
 config = pdfkit.configuration(wkhtmltopdf=r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe')
-pdfkit.from_string(doc,r'output\output.pdf', configuration=config, options=options)
+pdfkit.from_string(doc, out_pdf, configuration=config, options=options)
