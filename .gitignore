@@ -4,3 +4,4 @@ debug.log
 .coverage
 cov.xml
 env
+*.egg-info

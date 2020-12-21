@@ -8,9 +8,9 @@
     </head>
     <body>
         <div class='page'>
-            {% for (bull, code, date) in bulls %}
+            {% for (name, code, date) in labels %}
             <div class='label'>
-                <h1 class='bull'>{{ bull }}</h1>
+                <h1 class='bull'>{{ name }}</h1>
                 <p class='code'>Code: {{ code }}</p>
                 <p class='date'>Date: {{ date.strftime('%Y-%m-%d') }}</p>
             </div>

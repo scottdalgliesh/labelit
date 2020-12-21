@@ -4,33 +4,41 @@ from jinja2 import Template
 import openpyxl
 import pdfkit
 
-#file directories
+#static file directories
 root = Path(__file__).parent.parent
 html = root / 'labelit' / 'template.html'
 css = root / 'labelit' / 'style.css'
-out_html = root / 'output' / 'output.html'
-out_pdf = root / 'output' / 'output.pdf'
-excel = root / 'labelit' / 'sample_data.xlsx'
 
-#import data from excel
-wb = openpyxl.load_workbook(excel, data_only=True)
-ws = wb.get_sheet_by_name('Sheet1')
-rows = ws.max_row
-bulls = [(ws[f'A{x}'].value, ws[f'B{x}'].value, ws[f'C{x}'].value) for x in range(2, rows+1)]
+def import_data(book_name, sheet_name):
+    """Import label data from excel workbook (assume first row are labels)"""
+    book = openpyxl.load_workbook(book_name, data_only=True)
+    sheet = book.get_sheet_by_name(sheet_name)
+    rows = sheet.max_row
+    return [(sheet[f'A{x}'].value, sheet[f'B{x}'].value, sheet[f'C{x}'].value)
+            for x in range(2, rows+1)]
 
-#sort by date then name
-bulls.sort(key= lambda x: (x[2], x[0]))
+def generate_html(labels):
+    """Sort data and generate html for labels"""
+    labels.sort(key= lambda x: (x[2], x[0]))
+    with open(html) as file:
+        template = Template(file.read())
+    return template.render({'labels':labels, 'css':css})
 
-#read html template
-with open(html) as file:
-    template = Template(file.read())
-doc = template.render({'bulls':bulls, 'css':css})
+def output_labels(label_html, output_name, output_html):
+    """Output labels as a PDF, and optionally as html"""
+    options = {'enable-local-file-access': None, 'print-media-type': None}
+    config = pdfkit.configuration(wkhtmltopdf=r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe')
+    pdfkit.from_string(label_html, output_name, configuration=config, options=options)
+    print(f'\nFile generated: {output_name}')
 
-#output complete html document
-with open(out_html, 'w') as file:
-    file.write(doc)
+    if output_html:
+        html_name = output_name.rstrip('.pdf') + '.html'
+        with open(html_name, 'w') as file:
+            file.write(label_html)
+        print(f'File generated: {html_name}')
 
-# output complete pdf
-options = {'enable-local-file-access': None, 'print-media-type': None}
-config = pdfkit.configuration(wkhtmltopdf=r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe')
-pdfkit.from_string(doc, out_pdf, configuration=config, options=options)
+def main(input_workbook, input_sheet, output_pdf, output_html):
+    """Generate sorted labels from excel data"""
+    label_data = import_data(input_workbook, input_sheet)
+    label_html = generate_html(label_data)
+    output_labels(label_html, output_pdf, output_html)
