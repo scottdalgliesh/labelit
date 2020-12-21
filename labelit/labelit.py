@@ -1,10 +1,8 @@
-from datetime import date
 from pathlib import Path
 
 from jinja2 import Template
+import openpyxl
 import pdfkit
-
-from .sample_data import bulls
 
 #file directories
 root = Path(__file__).parent.parent
@@ -12,9 +10,15 @@ html = root / 'labelit' / 'template.html'
 css = root / 'labelit' / 'style.css'
 out_html = root / 'output' / 'output.html'
 out_pdf = root / 'output' / 'output.pdf'
+excel = root / 'labelit' / 'sample_data.xlsx'
+
+#import data from excel
+wb = openpyxl.load_workbook(excel, data_only=True)
+ws = wb.get_sheet_by_name('Sheet1')
+rows = ws.max_row
+bulls = [(ws[f'A{x}'].value, ws[f'B{x}'].value, ws[f'C{x}'].value) for x in range(2, rows+1)]
 
 #sort by date then name
-bulls = [(x[0], x[1], date.fromisoformat(x[2])) for x in bulls]
 bulls.sort(key= lambda x: (x[2], x[0]))
 
 #read html template
