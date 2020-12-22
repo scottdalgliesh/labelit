@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "c:\\Users\\sdalg\\python\\labelit\\env\\Scripts\\python.exe"
+    "python.pythonPath": "c:\\Users\\sdalg\\python\\labelit\\env\\Scripts\\python.exe",
+    "python.testing.pytestEnabled": true,
 }
