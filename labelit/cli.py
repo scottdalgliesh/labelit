@@ -22,7 +22,7 @@ from .labelit import main
               default=False,
               show_default=True,
               help='enable output of generated html for inspection')
-def cli(input_workbook, input_sheet, output_pdf, output_html):
+def cli(input_workbook: str, input_sheet: str, output_pdf: str, output_html: bool) -> None:
     """Generate labels from excel input data"""
     main(input_workbook, input_sheet, output_pdf, output_html)
 
