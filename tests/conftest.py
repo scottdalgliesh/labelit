@@ -10,7 +10,6 @@ root = Path(__file__).parent #absolute path required since cli tests change cwd
 @pytest.fixture
 def sample():
     workbook = root / 'sample_data/sample_data.xlsx'
-    # workbook = 'tests/sample_data/sample_data.xlsx'
     sheet = 'Sheet1'
     data = [
         ('High Octane', '1111-1111-1111', datetime(year=2020, month=12, day=18)),
