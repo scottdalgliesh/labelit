@@ -31,16 +31,18 @@ def generate_html(labels: Label) -> str:
 
 def output_labels(label_html: str, output_name: str, output_html: bool) -> None:
     """Output labels as a PDF, and optionally as html"""
-    options = {'enable-local-file-access': None, 'print-media-type': None}
+    options = {'enable-local-file-access': None, 'print-media-type': None, 'quiet': None}
     config = pdfkit.configuration(wkhtmltopdf=r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe')
     pdfkit.from_string(label_html, output_name, configuration=config, options=options)
-    print(f'\nFile generated: {output_name}')
+    print(f'File generated: {output_name}')
 
     if output_html:
         html_name = output_name.rstrip('.pdf') + '.html'
         with open(html_name, 'w') as file:
             file.write(label_html)
-        print(f'File generated: {html_name}')
+        print(f'File generated: {html_name}\n')
+    else:
+        print()
 
 def main(input_workbook: str, input_sheet: str, output_pdf: str, output_html: bool) -> None:
     """Generate sorted labels from excel data"""
