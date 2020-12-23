@@ -18,7 +18,7 @@ File generated: other_labels.html
 ```
 
 ## Input Format
-The following demonstrates the excel input file data format required.
+The following demonstrates the excel input file data format required. Note that the Date column must be entered as 'Date' type cells within excel. 
 
 ![Input data image](static/sample_input.jpg)
 

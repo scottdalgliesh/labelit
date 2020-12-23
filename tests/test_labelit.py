@@ -10,6 +10,13 @@ def test_import_data(sample):
     data = labelit.import_data(sample['workbook'], sample['sheet'])
     assert data == sample['data']
 
+def test_check_input_data():
+    input_file = 'tests/sample_data/date_type.xlsx'
+    sheet = 'Sheet1'
+    label_data = labelit.import_data(input_file, sheet)
+    with pytest.raises(TypeError):
+        labelit.check_input_data(label_data)
+
 def test_generate_html(sample):
     html = labelit.generate_html(sample['data'])
     assert sample['html'] == html

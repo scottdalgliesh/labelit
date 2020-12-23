@@ -24,7 +24,10 @@ from .labelit import main
               help='enable output of generated html for inspection')
 def cli(input_workbook: str, input_sheet: str, output_pdf: str, output_html: bool) -> None:
     """Generate labels from excel input data"""
-    main(input_workbook, input_sheet, output_pdf, output_html)
+    try:
+        main(input_workbook, input_sheet, output_pdf, output_html)
+    except TypeError as type_error:
+        print(f'ERROR - NO LABELS GENERATED\n{type_error}')
 
 #pylint:disable=no-value-for-parameter
 if __name__ == '__main__':

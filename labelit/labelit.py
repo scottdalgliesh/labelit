@@ -22,6 +22,19 @@ def import_data(book_name: str, sheet_name: str) -> Label:
     return [(sheet[f'A{x}'].value, sheet[f'B{x}'].value, sheet[f'C{x}'].value)
             for x in range(2, rows+1)]
 
+
+def check_input_data(data: Label) -> None:
+    """Check input data for type errors"""
+    for record in data:
+        if not isinstance(record[0], str):
+            raise TypeError('Name must be specified as a string.')
+        if not isinstance(record[1], str):
+            raise TypeError('Code must be specified as a string.')
+        if not isinstance(record[2], datetime):
+            raise TypeError('Date must be specified as a "date object". '
+                                 'Hint, check the datatype within excel is "Date".')
+
+
 def generate_html(labels: Label) -> str:
     """Sort data and generate html for labels"""
     labels.sort(key= lambda x: (x[2], x[0]))
@@ -47,5 +60,6 @@ def output_labels(label_html: str, output_name: str, output_html: bool) -> None:
 def main(input_workbook: str, input_sheet: str, output_pdf: str, output_html: bool) -> None:
     """Generate sorted labels from excel data"""
     label_data = import_data(input_workbook, input_sheet)
+    check_input_data(label_data)
     label_html = generate_html(label_data)
     output_labels(label_html, output_pdf, output_html)
